@@ -4,7 +4,7 @@ import re
 
 def main():
     raw_file = open('MyEBirdData.csv')
-    clean_file = open('EBirdDataMod.csv', 'w')
+    clean_file = open('MyEBirdDataCleanup.csv', 'w')
     
     raw_file.readline()
     header = 'Common Name,Scientific Name,Taxonomic Order,Count,State/Province,County,Location,Date\n'
@@ -17,8 +17,8 @@ def main():
         # format species name
         species_name = final_tokens[0]
         
-        # ignore the entry if it's not a full species (spuh, slash, hybrid)
-        if '.' in species_name or '/' in species_name or 'hybrid' in species_name:
+        # ignore the entry if it's not a full species (spuh, hybrid)
+        if '.' in species_name or 'hybrid' in species_name:
             continue
 
         # ignore domestic types
@@ -28,6 +28,10 @@ def main():
         # remove parenthesis suffices(denote subspecies)
         elif '(' in species_name:
             species_name = species_name[:species_name.index('(') - 1]
+
+        # if the entry still contains a slash, it's not a full species
+        if '/' in species_name:
+            continue
 
         final_tokens[0] = species_name
     
@@ -64,7 +68,7 @@ def fix_tokens(raw_fields):
     fields_tested = 0
     while not date_found:
         temp = raw_fields[temp_index]
-        if fields_tested > 3 and re.search('.(.?)-.(.?)-....', temp):
+        if fields_tested > 3 and re.search('....-.(.?)-.(.?)', temp):
             date = temp
             date_found = True
 

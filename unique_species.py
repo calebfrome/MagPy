@@ -13,7 +13,7 @@ def main():
     for county_name in tx_county_names:
         county_species_map[county_name] = []
 
-    data_file = open('EBirdDataMod.csv')
+    data_file = open('MyEBirdDataCleanup.csv')
     for line in data_file.readlines():
         line_elements = line.split(',')
         state = line_elements[4]

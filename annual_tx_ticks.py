@@ -1,4 +1,6 @@
+import cleanup_data
 import datetime
+
 
 class Observation:
     def __init__(self, species, date):
@@ -7,6 +9,8 @@ class Observation:
 
 
 def main():
+    cleanup_data.main()
+
     tx_county_names = []
     tx_county_names_file = open('tx_county_names.txt')
     for line in tx_county_names_file.readlines():
@@ -19,7 +23,7 @@ def main():
     min_date = datetime.datetime.today()
     max_date = datetime.datetime(2000, 1, 1)
 
-    data_file = open('EBirdDataMod.csv')
+    data_file = open('MyEBirdDataCleanup.csv')
     for line in data_file.readlines():
         line_elements = line.split(',')
         state = line_elements[4]
