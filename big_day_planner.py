@@ -1,10 +1,22 @@
 import os
 import numpy as np
 
+scale_factor = 4/3
 show_full_results = False
 compare_routes = True
 
 route = [
+    'anahuac_area',
+    'high_island_area',
+    'rollover_pass_area',
+    'bolivar_flats_area',
+    'galveston_island_area',
+    'brazoria_area',
+    'quintana_area',
+    'san_bernard_area'
+]
+
+route_compare = [
     # 'aransas_nwr_area',
     'bentsen_area',
     'estero_area',
@@ -19,23 +31,23 @@ route = [
     'spi_area']
 
 route_compare = [
-    # 'aransas_nwr_area',
+    'aransas_nwr_area',
     'bentsen_area',
     'estero_area',
     'goose_island_area',
-    # 'hazel_pollywog_area',
-    #'king_ranch_norias_area',
+    'hazel_pollywog_area',
+    # 'king_ranch_norias_area',
     # 'laguna_atascosa_area',
-    'old_port_isabel_rd_area',
-    'port_aransas_area',
-    #'salineno_area',
+    # 'old_port_isabel_rd_area',
+    # 'port_aransas_area',
+    # 'salineno_area',
     'santa_ana_area',
     'spi_area']
 
 
 def main():
     # week_index is 1-indexed
-    week_index = 14
+    week_index = 13
 
     # analyze first route
     expected_species = create_expectations(route, week_index)
@@ -70,19 +82,15 @@ def main():
 
 
 def create_expectations(route, week_index):
-    expected_species = dict()
+    expected_species_values = dict()
     for region in route:
         if show_full_results:
             print(region)
         for location in os.listdir('big_day_bar_charts/' + region):
             with open('big_day_bar_charts/' + region + '/' + location) as datafile:
-                # discard first 14 lines
-                for i in range(14):
+                # discard first 15 lines
+                for i in range(15):
                     datafile.readline()
-                # get number of expected checklists from line 15
-                expected_lists = max(np.ceil(float(datafile.readline().split('\t')[week_index]) / 70), 1.0)
-                if show_full_results:
-                    print('\t', location, expected_lists)
                 # process species data
                 for buffer in datafile.readlines():
                     species_data = buffer.rstrip().split('\t')
@@ -90,10 +98,14 @@ def create_expectations(route, week_index):
                     parsed_name = parse_name(species_name)
                     if parsed_name == '':
                         continue
-                    if parsed_name not in expected_species.keys():
-                        expected_species[parsed_name] = expectation(float(species_data[week_index]), expected_lists)
+                    if parsed_name not in expected_species_values.keys():
+                        expected_species_values[parsed_name] = [float(species_data[week_index])]
                     else:
-                        expected_species[parsed_name] += expectation(float(species_data[week_index]), expected_lists)
+                        expected_species_values[parsed_name].append(float(species_data[week_index]))
+                        
+    expected_species = dict()
+    for species in expected_species_values.keys():
+        expected_species[species] = expectation(expected_species_values[species])
 
     return expected_species
 
@@ -120,8 +132,11 @@ def parse_name(species_name):
     return parsed_name
 
 
-def expectation(frequency, expected_lists):
-    return 1 - ((1 - frequency) ** expected_lists)
+def expectation(frequency_values):
+    x = 1
+    for freq in frequency_values:
+        x *= (1 - freq)
+    return (1 - x) * scale_factor
 
 
 def output(exp_species):
