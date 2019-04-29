@@ -16,10 +16,10 @@ def main():
     data_file = open('MyEBirdDataCleanup.csv')
     for line in data_file.readlines():
         line_elements = line.split(',')
-        state = line_elements[4]
+        state = line_elements[5]
         if state == 'US-TX':
-            species = line_elements[0]
-            county = line_elements[5]
+            species = line_elements[1]
+            county = line_elements[6]
             if species not in county_species_map[county]:
                 county_species_map[county].append(species)
 

@@ -26,13 +26,13 @@ def main():
     data_file = open('MyEBirdDataCleanup.csv')
     for line in data_file.readlines():
         line_elements = line.split(',')
-        state = line_elements[4]
+        state = line_elements[5]
         if state == 'US-TX':
-            species = line_elements[0]
-            county = line_elements[5]
+            species = line_elements[1]
+            county = line_elements[6]
             # index date from back because some location names contain commas
-            date_s = line_elements[len(line_elements) - 1].split('-')
-            date = datetime.datetime(int(date_s[2]), int(date_s[0]), int(date_s[1]))
+            date_s = line_elements[len(line_elements) - 1].rstrip('\n').split('-')
+            date = datetime.datetime(int(date_s[0]), int(date_s[1]), int(date_s[2]))
             if date < min_date:
                 min_date = date
             if date > max_date:

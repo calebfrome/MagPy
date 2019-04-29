@@ -7,7 +7,7 @@ def main():
     clean_file = open('MyEBirdDataCleanup.csv', 'w')
     
     raw_file.readline()
-    header = 'Common Name,Scientific Name,Taxonomic Order,Count,State/Province,County,Location,Date\n'
+    header = 'SID,Common Name,Scientific Name,Taxonomic Order,Count,State/Province,County,Location,Date\n'
     clean_file.write(header)
     
     for line in raw_file.readlines():
@@ -15,14 +15,14 @@ def main():
         final_tokens = fix_tokens(raw_tokens)
     
         # format species name
-        species_name = final_tokens[0]
-        
+        species_name = final_tokens[1]
+
         # ignore the entry if it's not a full species (spuh, hybrid)
         if '.' in species_name or 'hybrid' in species_name:
             continue
 
         # ignore domestic types
-        elif 'Domestic' in final_tokens[1]:
+        elif 'Domestic' in species_name:
             continue
 
         # remove parenthesis suffices(denote subspecies)
@@ -33,13 +33,13 @@ def main():
         if '/' in species_name:
             continue
 
-        final_tokens[0] = species_name
+        final_tokens[1] = species_name
     
-        # output all 8 fields from final_tokens
+        # output all 9 fields from final_tokens
         buffer = ''
-        for i in range(8):
+        for i in range(9):
             buffer += final_tokens[i]
-            if i < 7:
+            if i < 8:
                 buffer += ','
             else:
                 buffer += '\n'
@@ -60,8 +60,8 @@ def fix_tokens(raw_fields):
     location_name = ''
     fixed_fields = []
 
-    # copy fields 1 to 6 to start of fixed_fields (common name to county) - eliminating SID
-    for i in range(1, 7):
+    # copy fields 0 to 6 to start of fixed_fields (common name to county)
+    for i in range(0, 7):
         fixed_fields.append(raw_fields[i])
 
     # find the date

@@ -5,7 +5,35 @@ scale_factor = 4/3
 show_full_results = False
 compare_routes = True
 
-route = [
+
+route_ctx_ctc_rgv = [
+    'mitchell_lake_area',
+    'port_aransas_area',
+    'king_ranch_norias_area',
+    'estero_area',
+    # 'old_port_isabel_rd_area',
+    'santa_ana_area',
+    'spi_area',
+]
+
+route_ctx_utc = [
+    'anahuac_area',
+    'high_island_area',
+    'bolivar_flats_area',
+    'mitchell_lake_area',
+    'south_llano_area'
+]
+
+route_ctx_ctc_utc = [
+    'anahuac_area',
+    'high_island_area',
+    # 'bolivar_flats_area',
+    # 'hazel_pollywog_area',
+    'mitchell_lake_area',
+    'south_llano_area'
+]
+
+route_utc = [
     'anahuac_area',
     'high_island_area',
     'rollover_pass_area',
@@ -16,7 +44,7 @@ route = [
     'san_bernard_area'
 ]
 
-route_compare = [
+route_compare_rgv_ctc_v1 = [
     # 'aransas_nwr_area',
     'bentsen_area',
     'estero_area',
@@ -26,11 +54,10 @@ route_compare = [
     # 'laguna_atascosa_area',
     # 'old_port_isabel_rd_area',
     'port_aransas_area',
-    # 'salineno_area',
     'santa_ana_area',
     'spi_area']
 
-route_compare = [
+route_rgv_ctc_v2 = [
     'aransas_nwr_area',
     'bentsen_area',
     'estero_area',
@@ -40,12 +67,14 @@ route_compare = [
     # 'laguna_atascosa_area',
     # 'old_port_isabel_rd_area',
     # 'port_aransas_area',
-    # 'salineno_area',
     'santa_ana_area',
     'spi_area']
 
 
 def main():
+    route = route_ctx_ctc_rgv
+    route_compare = route_ctx_utc
+
     # week_index is 1-indexed
     week_index = 13
 

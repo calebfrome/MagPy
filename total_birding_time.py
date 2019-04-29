@@ -16,8 +16,8 @@ def main():
             if line_elements[column + 1] != '':
                 total_time += int(line_elements[column + 1])
 
-    print(total_time, total_time/60)
-    print(len(checklists_counted))
+    print(total_time, 'minutes =', total_time/60, 'hours')
+    print(len(checklists_counted), 'checklists')
 
 
 if __name__ == '__main__':
