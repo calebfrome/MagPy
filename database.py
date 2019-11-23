@@ -38,13 +38,24 @@ def create_database(min_date=datetime.datetime(1900, 1, 1), max_date=datetime.da
         if date < min_date or date > max_date:
             continue
         # check location filter
-        if regions is not None and state not in regions:
+        if not state_in_regions(state, regions):
             continue
 
         # check if checklist already exists
-        if sid in database.keys():
-            database[sid].add_species(species, count)
-        else:
+        if sid not in database.keys():
             database[sid] = Checklist(sid, location, county, state, date)
+        # add species
+        database[sid].add_species(species, count)
 
     return database
+
+
+def state_in_regions(state, regions):
+    if regions is None:
+        return True
+    if regions == 'ABA':
+        regions = ['US', 'CA']
+    for region in regions:
+        if state.find(region) == 0:
+            return True
+    return False

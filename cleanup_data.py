@@ -18,7 +18,7 @@ def main():
         species_name = final_tokens[1]
 
         # ignore the entry if it's not a full species (spuh, hybrid)
-        if '.' in species_name or 'hybrid' in species_name:
+        if 'sp.' in species_name or 'hybrid' in species_name:
             continue
 
         # ignore domestic types
@@ -55,7 +55,7 @@ def fix_tokens(raw_fields):
     input_fields = len(raw_fields)
     date_found = False
     temp_index = input_fields - 1
-    loc_start = 7  # the index of the first part of the location field
+    loc_start = 8  # the index of the first part of the location field
     date = ''
     location_name = ''
     fixed_fields = []
