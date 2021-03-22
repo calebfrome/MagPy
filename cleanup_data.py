@@ -3,7 +3,7 @@ import re
 
 
 def main():
-    raw_file = open('MyEBirdData.csv')
+    raw_file = open('MyEBirdData.csv', encoding='utf8')
     clean_file = open('MyEBirdDataCleanup.csv', 'w')
     
     raw_file.readline()

@@ -2,6 +2,7 @@ import datetime
 from generate_lists import generate_list
 import requests
 import json
+from ebird.api import get_observations
 
 api_key = '411kkf61qc5d'
 headers = {
@@ -16,6 +17,7 @@ def main():
 
 def generate_alert(search_regions, list_regions, days_back):
     aba_list = generate_list(datetime.datetime(2019, 1, 1), datetime.datetime.today(), 'first', 'ABA')
+    print(aba_list)
     recent_obs = get_most_recent_observations('US-WI-025', days_back)
     for obs in recent_obs:
         if obs['comName'] not in aba_list:
