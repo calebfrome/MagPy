@@ -76,7 +76,7 @@ def add_alert(file, obs_list, lat, lon, max_obs):
         else:
             file.write(' style="color:#36316b;"')
         file.write('>' + date_time_obj.strftime('%b %d') + '</span>: <a href=' + ebird_checklist_url(obs['subId']) + '>'
-                   + obs['locName'] + '</li>')
+                   + obs['locName'] + '</a></li>')
     file.write('</ul></li>')
 
 
